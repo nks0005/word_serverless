@@ -104,15 +104,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         {/* 각 카테고리 버튼 - 더 친근하고 시각적으로 */}
         {categories.map((category) => {
           const theme = categoryThemes[category.id] || categoryThemes.default;
-          const easyCount = category.words.filter(
-            (w) => w.difficulty === "easy"
-          ).length;
-          const mediumCount = category.words.filter(
-            (w) => w.difficulty === "medium"
-          ).length;
-          const hardCount = category.words.filter(
-            (w) => w.difficulty === "hard"
-          ).length;
 
           return (
             <button
@@ -150,32 +141,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
                   >
                     📝 {category.words.length}개 단어
                   </div>
-                </div>
-
-                {/* 난이도별 단어 수 - 더 친근하게 */}
-                <div className="flex flex-wrap justify-center gap-3 text-sm">
-                  {easyCount > 0 && (
-                    <span className="flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full border-2 border-green-200">
-                      <span className="text-lg">😊</span>
-                      <span className="font-semibold">쉬워요: {easyCount}</span>
-                    </span>
-                  )}
-                  {mediumCount > 0 && (
-                    <span className="flex items-center gap-2 bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full border-2 border-yellow-200">
-                      <span className="text-lg">🤔</span>
-                      <span className="font-semibold">
-                        보통이에요: {mediumCount}
-                      </span>
-                    </span>
-                  )}
-                  {hardCount > 0 && (
-                    <span className="flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full border-2 border-red-200">
-                      <span className="text-lg">💪</span>
-                      <span className="font-semibold">
-                        도전해요: {hardCount}
-                      </span>
-                    </span>
-                  )}
                 </div>
 
                 {/* 호버시 보이는 응원 메시지 */}

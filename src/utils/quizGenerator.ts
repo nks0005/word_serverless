@@ -37,16 +37,58 @@ const generateOptions = (
 ): string[] => {
   const correctAnswer = targetWord.korean;
 
-  // 다른 단어들에서 한국어 오답 선택지 생성 (4개)
+  // 다른 단어들에서 한국어 오답 선택지 생성 (중복 제거)
   const otherWords = allWords.filter((word) => word.id !== targetWord.id);
-  const wrongOptions = otherWords
-    .map((word) => word.korean)
-    .filter((option) => option !== correctAnswer)
+
+  // 중복되는 한국어 뜻 제거 - Set을 사용해서 고유한 한국어만 추출
+  const uniqueKoreanOptions = Array.from(
+    new Set(
+      otherWords
+        .map((word) => word.korean)
+        .filter((option) => option !== correctAnswer)
+    )
+  );
+
+  // 고유한 선택지를 섞고 최대 4개까지 선택
+  const wrongOptions = uniqueKoreanOptions
     .sort(() => Math.random() - 0.5)
-    .slice(0, 4); // 4개의 오답 선택지
+    .slice(0, 4);
+
+  // 만약 고유한 오답이 4개 미만이면, 부족한 만큼 일반적인 단어로 채우기
+  const commonWrongAnswers = [
+    "사과",
+    "책",
+    "물",
+    "집",
+    "차",
+    "음식",
+    "사람",
+    "시간",
+    "학교",
+    "친구",
+    "가족",
+    "일",
+    "돈",
+    "길",
+    "나무",
+    "꽃",
+    "하늘",
+    "바다",
+    "산",
+    "강",
+  ];
+
+  // 현재 선택지에 없는 일반적인 단어들로 부족한 선택지 채우기
+  const allCurrentOptions = [correctAnswer, ...wrongOptions];
+  const additionalOptions = commonWrongAnswers
+    .filter((option) => !allCurrentOptions.includes(option))
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 4 - wrongOptions.length);
+
+  const finalWrongOptions = [...wrongOptions, ...additionalOptions];
 
   // 정답과 오답을 섞어서 반환 (총 5개)
-  const allOptions = [correctAnswer, ...wrongOptions];
+  const allOptions = [correctAnswer, ...finalWrongOptions];
   return allOptions.sort(() => Math.random() - 0.5);
 };
 
