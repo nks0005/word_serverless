@@ -2,7 +2,7 @@ import type { Word, QuizQuestion, QuizMode } from "../types/word";
 
 export const generateQuizQuestions = (
   words: Word[],
-  mode: QuizMode = "mixed",
+  mode: QuizMode = "english-to-korean", // 기본값을 영어->한국어로 변경
   questionCount: number = 10
 ): QuizQuestion[] => {
   if (words.length === 0) return [];
@@ -14,16 +14,11 @@ export const generateQuizQuestions = (
   );
 
   return selectedWords.map((word, index) => {
-    const questionType =
-      mode === "mixed"
-        ? Math.random() > 0.5
-          ? "english-to-korean"
-          : "korean-to-english"
-        : mode;
+    // 항상 영어 -> 한국어 퀴즈만 생성
+    const questionType = "english-to-korean";
 
     const options = generateOptions(word, words, questionType);
-    const correctAnswer =
-      questionType === "english-to-korean" ? word.korean : word.english;
+    const correctAnswer = word.korean;
 
     return {
       id: `question-${index}`,
@@ -40,22 +35,17 @@ const generateOptions = (
   allWords: Word[],
   questionType: "english-to-korean" | "korean-to-english"
 ): string[] => {
-  const correctAnswer =
-    questionType === "english-to-korean"
-      ? targetWord.korean
-      : targetWord.english;
+  const correctAnswer = targetWord.korean;
 
-  // 다른 단어들에서 오답 선택지 생성
+  // 다른 단어들에서 한국어 오답 선택지 생성 (4개)
   const otherWords = allWords.filter((word) => word.id !== targetWord.id);
   const wrongOptions = otherWords
-    .map((word) =>
-      questionType === "english-to-korean" ? word.korean : word.english
-    )
+    .map((word) => word.korean)
     .filter((option) => option !== correctAnswer)
     .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
+    .slice(0, 4); // 4개의 오답 선택지
 
-  // 정답과 오답을 섞어서 반환
+  // 정답과 오답을 섞어서 반환 (총 5개)
   const allOptions = [correctAnswer, ...wrongOptions];
   return allOptions.sort(() => Math.random() - 0.5);
 };
