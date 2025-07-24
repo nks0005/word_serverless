@@ -1,6 +1,19 @@
 import React, { useState } from "react";
-import { Plus, Edit, Trash2, Save, X, Download, Upload } from "lucide-react";
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Save,
+  X,
+  Download,
+  Upload,
+  Zap,
+} from "lucide-react";
 import type { Category, Word } from "../types/word";
+import {
+  saveWordsToLocalFile,
+  isLocalFileSyncAvailable,
+} from "../utils/localFileSync";
 
 interface WordEditorProps {
   categories: Category[];
@@ -41,7 +54,7 @@ export const WordEditor: React.FC<WordEditorProps> = ({
   const generateId = () =>
     `id-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-  const handleAddWord = () => {
+  const handleAddWord = async () => {
     if (!newWord.english || !newWord.korean || !selectedCategoryId) return;
 
     const word: Word = {
@@ -61,6 +74,12 @@ export const WordEditor: React.FC<WordEditorProps> = ({
     );
 
     onUpdateCategories(updatedCategories);
+
+    // 개발 환경에서 로컬 파일에 자동 저장
+    if (isLocalFileSyncAvailable()) {
+      await saveWordsToLocalFile(updatedCategories);
+    }
+
     setNewWord({
       english: "",
       korean: "",
@@ -185,6 +204,17 @@ export const WordEditor: React.FC<WordEditorProps> = ({
                 className="hidden"
               />
             </label>
+
+            {/* 개발 모드에서만 표시 */}
+            {isLocalFileSyncAvailable() && (
+              <button
+                onClick={() => saveWordsToLocalFile(categories)}
+                className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 flex items-center gap-2"
+              >
+                <Zap className="w-4 h-4" />
+                로컬 저장
+              </button>
+            )}
             <button
               onClick={onClose}
               className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
