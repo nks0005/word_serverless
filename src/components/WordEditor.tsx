@@ -9,6 +9,10 @@ import {
   Upload,
   Zap,
   FileSpreadsheet,
+  HelpCircle,
+  AlertTriangle,
+  CheckCircle,
+  Info,
 } from "lucide-react";
 import type { Category, Word } from "../types/word";
 import {
@@ -41,6 +45,7 @@ export const WordEditor: React.FC<WordEditorProps> = ({
   const [showAddWord, setShowAddWord] = useState(false);
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+  const [showHelp, setShowHelp] = useState(false);
 
   // 엑셀 미리보기 상태
   const [excelPreview, setExcelPreview] = useState<{
@@ -369,16 +374,36 @@ export const WordEditor: React.FC<WordEditorProps> = ({
     }
   };
 
+  const totalWords = categories.reduce(
+    (total, cat) => total + cat.words.length,
+    0
+  );
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-        {/* 헤더 */}
-        <div className="sticky top-0 bg-white border-b p-6 flex justify-between items-center">
-          <h2 className="text-2xl font-bold">단어 데이터 편집기</h2>
-          <div className="flex gap-2">
-            <label className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 cursor-pointer flex items-center gap-2">
-              <FileSpreadsheet className="w-4 h-4" />
-              엑셀 업로드
+      <div className="bg-white rounded-3xl max-w-7xl w-full max-h-[95vh] overflow-y-auto shadow-2xl">
+        {/* 더 친근한 헤더 */}
+        <div className="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white border-b p-8 flex justify-between items-center rounded-t-3xl">
+          <div>
+            <h2 className="text-3xl font-bold mb-2 flex items-center gap-3">
+              📚 단어 관리 시스템
+              <button
+                onClick={() => setShowHelp(true)}
+                className="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+                title="도움말"
+              >
+                <HelpCircle className="w-6 h-6" />
+              </button>
+            </h2>
+            <p className="text-blue-100 text-lg">
+              📈 현재 {categories.length}개 카테고리, {totalWords}개 단어 관리
+              중
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <label className="px-6 py-3 bg-orange-500 text-white rounded-2xl hover:bg-orange-600 cursor-pointer flex items-center gap-3 transition-all shadow-lg hover:shadow-xl">
+              <FileSpreadsheet className="w-5 h-5" />
+              📥 엑셀 가져오기
               <input
                 type="file"
                 accept=".xlsx,.xls"
@@ -389,115 +414,216 @@ export const WordEditor: React.FC<WordEditorProps> = ({
 
             <button
               onClick={() => generateDataExcel(categories)}
-              className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 flex items-center gap-2"
+              className="px-6 py-3 bg-teal-500 text-white rounded-2xl hover:bg-teal-600 flex items-center gap-3 transition-all shadow-lg hover:shadow-xl"
             >
-              <Download className="w-4 h-4" />
-              데이터 다운로드
+              <Download className="w-5 h-5" />
+              💾 데이터 다운로드
             </button>
 
             {/* 개발 모드에서만 표시 */}
             {isLocalFileSyncAvailable() && (
               <button
                 onClick={handleLocalSave}
-                className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 flex items-center gap-2"
+                className="px-6 py-3 bg-purple-500 text-white rounded-2xl hover:bg-purple-600 flex items-center gap-3 transition-all shadow-lg hover:shadow-xl"
               >
-                <Zap className="w-4 h-4" />
-                로컬 저장
+                <Zap className="w-5 h-5" />⚡ 로컬 저장
               </button>
             )}
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+              className="px-6 py-3 bg-gray-500 text-white rounded-2xl hover:bg-gray-600 flex items-center gap-3 transition-all shadow-lg hover:shadow-xl"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
+              닫기
             </button>
           </div>
         </div>
 
-        <div className="p-6">
-          {/* 카테고리 추가 버튼 */}
-          <div className="mb-6">
-            <button
-              onClick={() => setShowAddCategory(true)}
-              className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />새 카테고리 추가
-            </button>
+        <div className="p-8">
+          {/* 빠른 시작 가이드 */}
+          <div className="mb-8 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-3xl p-6">
+            <h3 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+              🚀 빠른 시작 가이드
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="bg-white rounded-2xl p-4 border border-blue-200">
+                <div className="text-2xl mb-2">📁</div>
+                <h4 className="font-semibold text-gray-800 mb-2">
+                  1. 카테고리 만들기
+                </h4>
+                <p className="text-gray-600">
+                  주제별로 단어를 분류할 카테고리를 먼저 만드세요
+                </p>
+              </div>
+              <div className="bg-white rounded-2xl p-4 border border-blue-200">
+                <div className="text-2xl mb-2">📝</div>
+                <h4 className="font-semibold text-gray-800 mb-2">
+                  2. 단어 추가하기
+                </h4>
+                <p className="text-gray-600">
+                  각 카테고리에 영어 단어와 한국어 뜻을 추가하세요
+                </p>
+              </div>
+              <div className="bg-white rounded-2xl p-4 border border-blue-200">
+                <div className="text-2xl mb-2">💾</div>
+                <h4 className="font-semibold text-gray-800 mb-2">
+                  3. 데이터 저장
+                </h4>
+                <p className="text-gray-600">
+                  완료되면 데이터를 다운로드하여 백업하세요
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 카테고리 추가 섹션 */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                📂 카테고리 관리
+              </h3>
+              <button
+                onClick={() => setShowAddCategory(true)}
+                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-2xl hover:from-purple-600 hover:to-purple-700 flex items-center gap-2 transition-all shadow-lg hover:shadow-xl"
+              >
+                <Plus className="w-5 h-5" />새 카테고리 만들기
+              </button>
+            </div>
+
+            {categories.length === 0 && (
+              <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-6 text-center">
+                <div className="text-4xl mb-3">📁</div>
+                <h4 className="text-lg font-semibold text-yellow-800 mb-2">
+                  아직 카테고리가 없습니다
+                </h4>
+                <p className="text-yellow-700">
+                  먼저 카테고리를 만들어서 단어를 분류해보세요!
+                </p>
+              </div>
+            )}
           </div>
 
           {/* 카테고리별 단어 목록 */}
           {categories.map((category) => (
-            <div key={category.id} className="mb-8 border rounded-lg p-4">
-              <div className="flex justify-between items-center mb-4">
-                <div>
-                  <h3 className="text-xl font-bold">{category.name}</h3>
-                  {category.description && (
-                    <p className="text-gray-600">{category.description}</p>
-                  )}
-                  <p className="text-sm text-gray-500">
-                    {category.words.length}개 단어
-                  </p>
+            <div
+              key={category.id}
+              className="mb-8 bg-white border-2 border-gray-200 rounded-3xl p-6 shadow-lg"
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-500 rounded-2xl flex items-center justify-center text-white text-xl font-bold">
+                      {category.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-800">
+                        {category.name}
+                      </h3>
+                      {category.description && (
+                        <p className="text-gray-600 mt-1">
+                          {category.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 mt-3">
+                    <span className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
+                      📝 {category.words.length}개 단어
+                    </span>
+                    {category.words.length === 0 && (
+                      <span className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full text-sm">
+                        ⚠️ 단어를 추가해주세요
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   <button
                     onClick={() => {
                       setSelectedCategoryId(category.id);
                       setShowAddWord(true);
                     }}
-                    className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center gap-1"
+                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 flex items-center gap-2 transition-all shadow-md"
                   >
-                    <Plus className="w-3 h-3" />
+                    <Plus className="w-4 h-4" />
                     단어 추가
                   </button>
                   <button
                     onClick={() => handleDeleteCategory(category.id)}
-                    className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                    className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 flex items-center gap-2 transition-all shadow-md"
                   >
-                    <Trash2 className="w-3 h-3" />
+                    <Trash2 className="w-4 h-4" />
+                    삭제
                   </button>
                 </div>
               </div>
 
               {/* 단어 목록 */}
-              <div className="grid gap-3">
-                {category.words.map((word) => (
-                  <div key={word.id} className="border rounded p-3 bg-gray-50">
-                    {editingWord?.id === word.id ? (
-                      <EditWordForm
-                        word={editingWord}
-                        onSave={handleEditWord}
-                        onCancel={() => setEditingWord(null)}
-                        onChange={setEditingWord}
-                      />
-                    ) : (
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-4 mb-2">
-                            <span className="font-bold text-lg">
-                              {word.english}
-                            </span>
+              {category.words.length > 0 ? (
+                <div className="grid gap-4">
+                  {category.words.map((word) => (
+                    <div
+                      key={word.id}
+                      className="bg-gray-50 border border-gray-200 rounded-2xl p-4 hover:shadow-md transition-shadow"
+                    >
+                      {editingWord?.id === word.id ? (
+                        <EditWordForm
+                          word={editingWord}
+                          onSave={handleEditWord}
+                          onCancel={() => setEditingWord(null)}
+                          onChange={setEditingWord}
+                        />
+                      ) : (
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-4 mb-3">
+                              <div className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-xl font-bold text-lg">
+                                {word.english}
+                              </div>
+                              <span className="text-gray-400">→</span>
+                              <div className="text-lg font-semibold text-gray-800">
+                                {word.korean}
+                              </div>
+                            </div>
                           </div>
-                          <p className="text-gray-800 mb-1">{word.korean}</p>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => setEditingWord(word)}
+                              className="p-2 text-blue-500 hover:bg-blue-100 rounded-xl transition-colors"
+                              title="편집"
+                            >
+                              <Edit className="w-5 h-5" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteWord(word.id)}
+                              className="p-2 text-red-500 hover:bg-red-100 rounded-xl transition-colors"
+                              title="삭제"
+                            >
+                              <Trash2 className="w-5 h-5" />
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => setEditingWord(word)}
-                            className="p-1 text-blue-500 hover:bg-blue-100 rounded"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteWord(word.id)}
-                            className="p-1 text-red-500 hover:bg-red-100 rounded"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300">
+                  <div className="text-4xl mb-3">📝</div>
+                  <p className="text-gray-600 text-lg">
+                    이 카테고리에는 아직 단어가 없습니다
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSelectedCategoryId(category.id);
+                      setShowAddWord(true);
+                    }}
+                    className="mt-4 px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors"
+                  >
+                    첫 번째 단어 추가하기
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -521,6 +647,9 @@ export const WordEditor: React.FC<WordEditorProps> = ({
             onCancel={() => setShowAddCategory(false)}
           />
         )}
+
+        {/* 도움말 모달 */}
+        {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
 
         {/* 엑셀 미리보기 모달 */}
         {excelPreview.isOpen && (
@@ -578,6 +707,172 @@ export const WordEditor: React.FC<WordEditorProps> = ({
             setNotification((prev) => ({ ...prev, isOpen: false }))
           }
         />
+      </div>
+    </div>
+  );
+};
+
+// 도움말 모달 컴포넌트
+const HelpModal: React.FC<{
+  onClose: () => void;
+}> = ({ onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[100]">
+      <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
+              💡 사용법 가이드
+            </h3>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          <div className="space-y-8">
+            {/* 기본 사용법 */}
+            <section>
+              <h4 className="text-xl font-bold text-blue-600 mb-4 flex items-center gap-2">
+                <Info className="w-6 h-6" />
+                기본 사용법
+              </h4>
+              <div className="grid gap-4">
+                <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+                  <h5 className="font-semibold text-blue-800 mb-2">
+                    1️⃣ 카테고리 만들기
+                  </h5>
+                  <p className="text-blue-700">
+                    단어를 주제별로 분류하기 위해 먼저 카테고리를 만드세요. 예:
+                    일상영어, 비즈니스영어, 여행영어 등
+                  </p>
+                </div>
+                <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
+                  <h5 className="font-semibold text-green-800 mb-2">
+                    2️⃣ 단어 추가하기
+                  </h5>
+                  <p className="text-green-700">
+                    각 카테고리에 영어 단어와 한국어 뜻을 입력하세요. 필수 입력:
+                    영어 단어, 한국어 뜻
+                  </p>
+                </div>
+                <div className="bg-purple-50 border border-purple-200 rounded-2xl p-4">
+                  <h5 className="font-semibold text-purple-800 mb-2">
+                    3️⃣ 데이터 관리
+                  </h5>
+                  <p className="text-purple-700">
+                    완성된 데이터는 엑셀 파일로 다운로드하여 백업하거나 다른
+                    곳에서 사용할 수 있습니다.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* 엑셀 가져오기 */}
+            <section>
+              <h4 className="text-xl font-bold text-orange-600 mb-4 flex items-center gap-2">
+                <FileSpreadsheet className="w-6 h-6" />
+                엑셀 파일로 대량 등록하기
+              </h4>
+              <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6">
+                <h5 className="font-semibold text-orange-800 mb-3">
+                  엑셀 파일 형식
+                </h5>
+                <div className="bg-white rounded-xl p-4 border border-orange-200 mb-4">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left p-2 bg-gray-50">카테고리</th>
+                        <th className="text-left p-2 bg-gray-50">영어</th>
+                        <th className="text-left p-2 bg-gray-50">한국어</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b">
+                        <td className="p-2">일상영어</td>
+                        <td className="p-2">apple</td>
+                        <td className="p-2">사과</td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="p-2">일상영어</td>
+                        <td className="p-2">book</td>
+                        <td className="p-2">책</td>
+                      </tr>
+                      <tr>
+                        <td className="p-2">비즈니스영어</td>
+                        <td className="p-2">meeting</td>
+                        <td className="p-2">회의</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="space-y-2 text-orange-700">
+                  <p>
+                    <strong>⚠️ 주의사항:</strong>
+                  </p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>
+                      첫 번째 행은 반드시 '카테고리', '영어', '한국어' 헤더여야
+                      합니다
+                    </li>
+                    <li>엑셀 파일(.xlsx, .xls)만 지원됩니다</li>
+                    <li>기존 데이터는 모두 삭제되고 새 데이터로 교체됩니다</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            {/* 주의사항 */}
+            <section>
+              <h4 className="text-xl font-bold text-red-600 mb-4 flex items-center gap-2">
+                <AlertTriangle className="w-6 h-6" />
+                주의사항
+              </h4>
+              <div className="grid gap-3">
+                <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
+                  <h5 className="font-semibold text-red-800 mb-2">
+                    ⚠️ 데이터 백업
+                  </h5>
+                  <p className="text-red-700">
+                    중요한 데이터는 정기적으로 '데이터 다운로드' 버튼을 눌러
+                    엑셀 파일로 백업하세요.
+                  </p>
+                </div>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4">
+                  <h5 className="font-semibold text-yellow-800 mb-2">
+                    💾 자동 저장
+                  </h5>
+                  <p className="text-yellow-700">
+                    브라우저를 닫으면 데이터가 사라질 수 있으니 작업 후 반드시
+                    저장하세요.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* 문의 */}
+            <section className="bg-gray-50 rounded-2xl p-6">
+              <h4 className="text-xl font-bold text-gray-800 mb-3">
+                ❓ 추가 도움이 필요하신가요?
+              </h4>
+              <p className="text-gray-700">
+                사용 중 문제가 발생하거나 기능 개선 요청이 있으시면 언제든지
+                연락주세요. 더 나은 서비스를 제공하기 위해 노력하겠습니다! 😊
+              </p>
+            </section>
+          </div>
+
+          <div className="mt-8 text-center">
+            <button
+              onClick={onClose}
+              className="px-8 py-3 bg-blue-500 text-white rounded-2xl hover:bg-blue-600 transition-colors font-semibold"
+            >
+              이해했습니다! 👍
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

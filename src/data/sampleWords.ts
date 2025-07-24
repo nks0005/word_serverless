@@ -2,55 +2,12 @@ import type { Category } from '../types/word';
 
 export const sampleCategories: Category[] = [
   {
-    "id": "excel-category-1753373891892-xhdv9or6d",
-    "name": "테스트",
-    "description": "엑셀 파일에서 가져온 카테고리 (4개 단어)",
-    "words": [
-      {
-        "id": "excel-word-1753373891891-0",
-        "english": "test",
-        "korean": "테스트",
-        "phonetic": "",
-        "frequency": 5,
-        "difficulty": "medium",
-        "example": ""
-      },
-      {
-        "id": "excel-word-1753373891891-1",
-        "english": "TEST2",
-        "korean": "테스트",
-        "phonetic": "",
-        "frequency": 5,
-        "difficulty": "medium",
-        "example": ""
-      },
-      {
-        "id": "excel-word-1753373891891-2",
-        "english": "ALL",
-        "korean": "테스트",
-        "phonetic": "",
-        "frequency": 5,
-        "difficulty": "medium",
-        "example": ""
-      },
-      {
-        "id": "excel-word-1753373891891-19",
-        "english": "TEST",
-        "korean": "테스트",
-        "phonetic": "",
-        "frequency": 5,
-        "difficulty": "medium",
-        "example": ""
-      }
-    ]
-  },
-  {
-    "id": "excel-category-1753373891892-q429yk5gp",
+    "id": "excel-category-1753374517677-7lw1atitb",
     "name": "일상회화",
     "description": "엑셀 파일에서 가져온 카테고리 (6개 단어)",
     "words": [
       {
-        "id": "excel-word-1753373891891-3",
+        "id": "excel-word-1753374517676-0",
         "english": "hello",
         "korean": "안녕하세요",
         "phonetic": "",
@@ -59,7 +16,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-4",
+        "id": "excel-word-1753374517676-1",
         "english": "goodbye",
         "korean": "안녕히 가세요",
         "phonetic": "",
@@ -68,7 +25,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-5",
+        "id": "excel-word-1753374517676-2",
         "english": "thank you",
         "korean": "감사합니다",
         "phonetic": "",
@@ -77,7 +34,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-6",
+        "id": "excel-word-1753374517676-3",
         "english": "hello",
         "korean": "안녕하세요",
         "phonetic": "",
@@ -86,7 +43,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-7",
+        "id": "excel-word-1753374517676-4",
         "english": "goodbye",
         "korean": "안녕히 가세요",
         "phonetic": "",
@@ -95,7 +52,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-8",
+        "id": "excel-word-1753374517676-5",
         "english": "thank you",
         "korean": "감사합니다",
         "phonetic": "",
@@ -106,12 +63,12 @@ export const sampleCategories: Category[] = [
     ]
   },
   {
-    "id": "excel-category-1753373891892-lpgm8u78h",
+    "id": "excel-category-1753374517677-zlal0ev8h",
     "name": "비즈니스",
     "description": "엑셀 파일에서 가져온 카테고리 (4개 단어)",
     "words": [
       {
-        "id": "excel-word-1753373891891-9",
+        "id": "excel-word-1753374517676-6",
         "english": "meeting",
         "korean": "회의",
         "phonetic": "",
@@ -120,7 +77,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-10",
+        "id": "excel-word-1753374517676-7",
         "english": "presentation",
         "korean": "발표",
         "phonetic": "",
@@ -129,7 +86,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-11",
+        "id": "excel-word-1753374517676-8",
         "english": "meeting",
         "korean": "회의",
         "phonetic": "",
@@ -138,7 +95,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-12",
+        "id": "excel-word-1753374517676-9",
         "english": "presentation",
         "korean": "발표",
         "phonetic": "",
@@ -149,12 +106,12 @@ export const sampleCategories: Category[] = [
     ]
   },
   {
-    "id": "excel-category-1753373891892-5gzpjw7jx",
+    "id": "excel-category-1753374517677-3ii3h7q9b",
     "name": "음식",
     "description": "엑셀 파일에서 가져온 카테고리 (6개 단어)",
     "words": [
       {
-        "id": "excel-word-1753373891891-13",
+        "id": "excel-word-1753374517676-10",
         "english": "apple",
         "korean": "사과",
         "phonetic": "",
@@ -163,7 +120,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-14",
+        "id": "excel-word-1753374517676-11",
         "english": "banana",
         "korean": "바나나",
         "phonetic": "",
@@ -172,7 +129,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-15",
+        "id": "excel-word-1753374517676-12",
         "english": "coffee",
         "korean": "커피",
         "phonetic": "",
@@ -181,7 +138,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-16",
+        "id": "excel-word-1753374517676-13",
         "english": "apple",
         "korean": "사과",
         "phonetic": "",
@@ -190,7 +147,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-17",
+        "id": "excel-word-1753374517676-14",
         "english": "banana",
         "korean": "바나나",
         "phonetic": "",
@@ -199,7 +156,7 @@ export const sampleCategories: Category[] = [
         "example": ""
       },
       {
-        "id": "excel-word-1753373891891-18",
+        "id": "excel-word-1753374517676-15",
         "english": "coffee",
         "korean": "커피",
         "phonetic": "",

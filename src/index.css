@@ -11,6 +11,60 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 접근성 개선 */
+/* 포커스 링 개선 */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .bg-blue-50 {
+    background-color: #ffffff !important;
+    border-color: #1e40af !important;
+  }
+
+  .text-gray-600 {
+    color: #000000 !important;
+  }
+
+  .text-blue-600 {
+    color: #1e40af !important;
+  }
+}
+
+/* 동작 감소 선호 시 애니메이션 제거 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .confetti-piece {
+    display: none !important;
+  }
+}
+
+/* 큰 텍스트 모드 */
+@media (min-resolution: 192dpi) {
+  body {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  button {
+    min-height: 48px;
+    padding: 12px 24px;
+  }
+}
+
 /* 로딩 애니메이션 */
 @keyframes pulse {
   0%,
@@ -48,4 +102,91 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+/* 컨페티 애니메이션 */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: confetti-fall 3s linear infinite;
+}
+
+.confetti-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 호버 스케일 효과 */
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}
+
+/* 추가 애니메이션 */
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* 스크린 리더를 위한 숨김 텍스트 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 키보드 네비게이션 개선 */
+.focus-visible:focus {
+  outline: 3px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+/* 텍스트 가독성 개선 */
+.text-readable {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.025em;
+}
+
+/* 버튼 최소 크기 보장 */
+button {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* 터치 타겟 크기 보장 */
+@media (hover: none) {
+  button,
+  a,
+  [role="button"] {
+    min-height: 48px;
+    min-width: 48px;
+  }
 }

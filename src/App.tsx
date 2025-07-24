@@ -225,9 +225,11 @@ function App() {
           <div className="max-w-4xl mx-auto px-6 pb-6">
             <button
               onClick={handleReviewWrongAnswers}
-              className="w-full bg-red-500 text-white py-4 px-6 rounded-lg font-medium hover:bg-red-600 transition-colors mb-3"
+              className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-4 px-6 rounded-3xl font-bold text-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-3"
             >
-              📚 오답노트 복습하기 ({wrongAnswers.length}개 단어)
+              <span className="text-xl">📚</span>
+              오답노트 복습하기 ({wrongAnswers.length}개 단어)
+              <span className="text-xl">🔥</span>
             </button>
           </div>
         )}
@@ -241,27 +243,98 @@ function App() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
         {/* 진행률 표시 */}
-        <div className="max-w-2xl mx-auto mb-6 px-6">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-gray-600">
-              {currentQuestionIndex + 1} / {currentSession.questions.length}
-            </span>
-            <span className="text-sm text-gray-600">
-              점수: {currentSession.score} /{" "}
-              {currentQuestionIndex + (showResult ? 1 : 0)}
-            </span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-              style={{
-                width: `${
-                  ((currentQuestionIndex + (showResult ? 1 : 0)) /
-                    currentSession.questions.length) *
-                  100
-                }%`,
-              }}
-            />
+        <div className="max-w-3xl mx-auto mb-8 px-6">
+          <div className="bg-white rounded-3xl shadow-lg p-6 border-2 border-blue-100">
+            {/* 상단 정보 */}
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                  {currentQuestionIndex + 1}
+                </div>
+                <div>
+                  <span className="text-lg font-semibold text-gray-700">
+                    문제 {currentQuestionIndex + 1} /{" "}
+                    {currentSession.questions.length}
+                  </span>
+                  <div className="text-sm text-gray-500">
+                    {currentSession.categoryId === "all"
+                      ? "전체 단어"
+                      : "카테고리별"}{" "}
+                    퀴즈
+                  </div>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-lg font-bold text-blue-600">
+                  🎯 {currentSession.score}점
+                </div>
+                <div className="text-sm text-gray-500">
+                  정답률{" "}
+                  {Math.round(
+                    (currentSession.score /
+                      (currentQuestionIndex + (showResult ? 1 : 0))) *
+                      100
+                  ) || 0}
+                  %
+                </div>
+              </div>
+            </div>
+
+            {/* 진행률 바 */}
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm font-medium text-gray-600">
+                  진행률
+                </span>
+                <span className="text-sm font-medium text-blue-600">
+                  {Math.round(
+                    ((currentQuestionIndex + (showResult ? 1 : 0)) /
+                      currentSession.questions.length) *
+                      100
+                  )}
+                  %
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div
+                  className="h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500 ease-out relative"
+                  style={{
+                    width: `${
+                      ((currentQuestionIndex + (showResult ? 1 : 0)) /
+                        currentSession.questions.length) *
+                      100
+                    }%`,
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* 성과 요약 */}
+            <div className="grid grid-cols-3 gap-4 text-center text-sm">
+              <div className="bg-green-50 rounded-2xl p-3 border border-green-200">
+                <div className="text-green-600 font-bold text-lg">
+                  {currentSession.score}
+                </div>
+                <div className="text-green-700">맞힌 문제 ✅</div>
+              </div>
+              <div className="bg-red-50 rounded-2xl p-3 border border-red-200">
+                <div className="text-red-600 font-bold text-lg">
+                  {currentQuestionIndex +
+                    (showResult ? 1 : 0) -
+                    currentSession.score}
+                </div>
+                <div className="text-red-700">틀린 문제 ❌</div>
+              </div>
+              <div className="bg-blue-50 rounded-2xl p-3 border border-blue-200">
+                <div className="text-blue-600 font-bold text-lg">
+                  {currentSession.questions.length -
+                    (currentQuestionIndex + (showResult ? 1 : 0))}
+                </div>
+                <div className="text-blue-700">남은 문제 ⏳</div>
+              </div>
+            </div>
           </div>
         </div>
 
