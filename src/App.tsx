@@ -9,12 +9,12 @@ import type {
 import { CategorySelector } from "./components/CategorySelector";
 import { QuizCard } from "./components/QuizCard";
 import { QuizResult } from "./components/QuizResult";
-
+import { WordEditor } from "./components/WordEditor";
 import { sampleCategories } from "./data/sampleWords";
 import { generateQuizQuestions } from "./utils/quizGenerator";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 
-type AppState = "home" | "quiz" | "result";
+type AppState = "home" | "quiz" | "result" | "editor";
 
 function App() {
   const [appState, setAppState] = useState<AppState>("home");
@@ -37,6 +37,9 @@ function App() {
     "word-quiz-categories",
     sampleCategories
   );
+
+  // 개발 환경에서만 관리 페이지 활성화
+  const isDevelopment = import.meta.env.DEV;
 
   // 타이머 관리
   useEffect(() => {
@@ -205,6 +208,18 @@ function App() {
           onAllCategoriesSelect={() => startQuiz(null)}
         />
 
+        {/* 관리자 버튼 (개발 모드에서만) */}
+        {isDevelopment && (
+          <div className="max-w-4xl mx-auto px-6 pb-6">
+            <button
+              onClick={() => setAppState("editor")}
+              className="w-full bg-gray-700 text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+            >
+              ⚙️ 단어 데이터 편집하기 (개발 전용)
+            </button>
+          </div>
+        )}
+
         {/* 오답노트 버튼 */}
         {wrongAnswers.length > 0 && (
           <div className="max-w-4xl mx-auto px-6 pb-6">
@@ -271,6 +286,17 @@ function App() {
           onReviewWrongAnswers={handleReviewWrongAnswers}
         />
       </div>
+    );
+  }
+
+  // 관리 페이지 (개발 모드에서만)
+  if (appState === "editor" && isDevelopment) {
+    return (
+      <WordEditor
+        categories={categories}
+        onUpdateCategories={setCategories}
+        onClose={() => setAppState("home")}
+      />
     );
   }
 
