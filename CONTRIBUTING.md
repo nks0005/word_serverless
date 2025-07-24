@@ -37,16 +37,36 @@
 - [Actions 탭](https://github.com/anhyoungbin/word_serverless/actions)에서 배포 진행 상황 확인
 - 완료 후 [웹사이트](https://anhyoungbin.github.io/word_serverless/)에서 새 단어 확인
 
-## 🔄 방법 2: Fork & Pull Request
+## 🛠️ 방법 2: 로컬 개발 환경 (관리자용)
+
+```bash
+# 저장소 클론
+git clone https://github.com/anhyoungbin/word_serverless.git
+cd word_serverless
+
+# 패키지 설치
+npm install
+
+# 개발 서버 실행
+npm run dev
+```
+
+1. 브라우저에서 관리 페이지 접속
+2. 단어 추가/편집 (자동으로 파일 저장됨)
+3. Git 커밋 및 푸시
+
+```bash
+git add .
+git commit -m "Add new words"
+git push origin main
+```
+
+## 🔄 방법 3: Fork & Pull Request
 
 1. **Fork** 버튼 클릭하여 자신의 저장소로 복사
 2. 자신의 저장소에서 파일 편집
 3. **Pull Request** 생성하여 변경사항 제출
 4. 관리자 승인 후 병합
-
-## 📱 방법 3: GitHub Mobile App
-
-스마트폰에서도 GitHub 앱을 통해 파일을 편집할 수 있습니다!
 
 ## ❓ 도움이 필요하면
 
