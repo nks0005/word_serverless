@@ -146,7 +146,6 @@ export const QuizCard: React.FC<QuizCardProps> = ({
   };
 
   const isCorrect = showResult && selectedAnswer === question.correctAnswer;
-  const isWrong = showResult && selectedAnswer !== question.correctAnswer;
 
   const getTimerAnnouncement = () => {
     if (!timeLeft) return "";

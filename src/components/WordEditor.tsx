@@ -6,12 +6,10 @@ import {
   Save,
   X,
   Download,
-  Upload,
   Zap,
   FileSpreadsheet,
   HelpCircle,
   AlertTriangle,
-  CheckCircle,
   Info,
 } from "lucide-react";
 import type { Category, Word } from "../types/word";

@@ -2,7 +2,7 @@ import type { Word, QuizQuestion, QuizMode } from "../types/word";
 
 export const generateQuizQuestions = (
   words: Word[],
-  mode: QuizMode = "english-to-korean", // 기본값을 영어->한국어로 변경
+  _mode: QuizMode = "english-to-korean", // _ prefix로 사용하지 않음을 표시
   questionCount: number = 10
 ): QuizQuestion[] => {
   if (words.length === 0) return [];
@@ -15,14 +15,12 @@ export const generateQuizQuestions = (
 
   return selectedWords.map((word, index) => {
     // 항상 영어 -> 한국어 퀴즈만 생성
-    const questionType = "english-to-korean";
-
-    const options = generateOptions(word, words, questionType);
+    const options = generateOptions(word, words, "english-to-korean");
     const correctAnswer = word.korean;
 
     return {
       id: `question-${index}`,
-      type: questionType,
+      type: "english-to-korean",
       word,
       options,
       correctAnswer,
@@ -33,7 +31,7 @@ export const generateQuizQuestions = (
 const generateOptions = (
   targetWord: Word,
   allWords: Word[],
-  questionType: "english-to-korean" | "korean-to-english"
+  _questionType: "english-to-korean" | "korean-to-english" // _ prefix로 사용하지 않음을 표시
 ): string[] => {
   const correctAnswer = targetWord.korean;
 

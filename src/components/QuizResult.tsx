@@ -47,14 +47,6 @@ export const QuizResult: React.FC<QuizResultProps> = ({
     }
   }, [score]);
 
-  const getScoreColor = () => {
-    if (score >= 90) return "text-yellow-500"; // 금색
-    if (score >= 80) return "text-blue-500"; // 은색
-    if (score >= 70) return "text-orange-500"; // 동색
-    if (score >= 60) return "text-green-500"; // 녹색
-    return "text-gray-500";
-  };
-
   const getScoreGradient = () => {
     if (score >= 90) return "from-yellow-400 to-yellow-600";
     if (score >= 80) return "from-blue-400 to-blue-600";
