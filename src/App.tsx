@@ -10,11 +10,12 @@ import { CategorySelector } from "./components/CategorySelector";
 import { QuizCard } from "./components/QuizCard";
 import { QuizResult } from "./components/QuizResult";
 import { WordEditor } from "./components/WordEditor";
+import { SimpleWordEditor } from "./components/SimpleWordEditor";
 import { sampleCategories } from "./data/sampleWords";
 import { generateQuizQuestions } from "./utils/quizGenerator";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 
-type AppState = "home" | "quiz" | "result" | "editor";
+type AppState = "home" | "quiz" | "result" | "editor" | "simple-editor";
 
 function App() {
   const [appState, setAppState] = useState<AppState>("home");
@@ -231,6 +232,16 @@ function App() {
             </button>
           </div>
         )}
+
+        {/* 온라인 편집기 버튼 */}
+        <div className="max-w-4xl mx-auto px-6 pb-6">
+          <button
+            onClick={() => setAppState("simple-editor")}
+            className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-orange-600 transition-colors"
+          >
+            🌐 온라인 단어 편집기 (GitHub용 JSON 생성)
+          </button>
+        </div>
       </div>
     );
   }
@@ -298,6 +309,11 @@ function App() {
         onClose={() => setAppState("home")}
       />
     );
+  }
+
+  // 온라인 편집기 (누구나 사용 가능)
+  if (appState === "simple-editor") {
+    return <SimpleWordEditor onClose={() => setAppState("home")} />;
   }
 
   return <div>Loading...</div>;
